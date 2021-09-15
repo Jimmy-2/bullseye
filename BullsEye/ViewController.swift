@@ -77,6 +77,14 @@ class ViewController: UIViewController {
     round = 0
     scoreValue = 0
     startNewRound()
+    
+    //make nice transitions
+    let transition = CATransition()
+    transition.type = CATransitionType.fade
+    transition.duration = 1
+    transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+    view.layer.add(transition, forKey:nil)
+  
   }
   
   //method is called when hit me button is pressed
