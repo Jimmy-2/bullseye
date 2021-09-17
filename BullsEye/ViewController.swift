@@ -10,15 +10,19 @@ import UIKit
 
 class ViewController: UIViewController {
   @IBOutlet weak var slider: UISlider!
+  @IBOutlet weak var slider2: UISlider!
   @IBOutlet var targetLabel: UILabel!
+  
   @IBOutlet var scoreLabel: UILabel!
   @IBOutlet var roundLabel: UILabel!
   
   var currentValue = 0
+  var currentValue2 = 0
   //var currentValue: Int = 0
   
   //stores random number
   var targetValue = 0
+  var targetValue2 = 0
   var scoreValue = 0
   var round = 0
   
@@ -31,11 +35,13 @@ class ViewController: UIViewController {
     startOver()
     let thumbImageNormal = UIImage(named: "SliderThumb-Normal")!
     slider.setThumbImage(thumbImageNormal, for: .normal)
+    slider2.setThumbImage(thumbImageNormal, for: .normal)
 
     let thumbImageHighlighted = UIImage(
       named: "SliderThumb-Highlighted")!
     slider.setThumbImage(thumbImageHighlighted, for: .highlighted)
-
+    slider2.setThumbImage(thumbImageHighlighted, for: .highlighted)
+    
     let insets = UIEdgeInsets(
       top: 0,
       left: 14,
@@ -46,12 +52,14 @@ class ViewController: UIViewController {
     let trackLeftResizable = trackLeftImage.resizableImage(
       withCapInsets: insets)
     slider.setMinimumTrackImage(trackLeftResizable, for: .normal)
+    slider2.setMinimumTrackImage(trackLeftResizable, for: .normal)
+
 
     let trackRightImage = UIImage(named: "SliderTrackRight")!
     let trackRightResizable = trackRightImage.resizableImage(
       withCapInsets: insets)
     slider.setMaximumTrackImage(trackRightResizable, for: .normal)
-    
+    slider2.setMaximumTrackImage(trackRightResizable, for: .normal)
     //random integer from 1 to 100
     //targetValue = Int.random(in:1...100)
     
@@ -60,9 +68,11 @@ class ViewController: UIViewController {
   
   func startNewRound() {
     round += 1
-    targetValue = Int.random(in:1...100)
-    currentValue = 50
+    targetValue = Int.random(in:0...99)
+    currentValue = 0
+    currentValue2 = 0
     slider.value = Float(currentValue)
+    slider2.value = Float(currentValue2)
     updateLabels()
   }
   
@@ -90,7 +100,8 @@ class ViewController: UIViewController {
   //method is called when hit me button is pressed
   //@IBAction is the same as any other method like updateLabels but allows the user to hook up the method to storyboard objects
   @IBAction func showAlert() {
-    let difference = abs(currentValue - targetValue)
+    let difference = abs(currentValue+currentValue2 - targetValue)
+    
     //let is constant, difference will no longer need to be changed
     /*if difference < 0 {
       difference *= -1
@@ -118,7 +129,7 @@ class ViewController: UIViewController {
     }
     scoreValue += points
     
-    let message = "You scored \(points) points"
+    let message = "You scored \(points) points \(currentValue+currentValue2)"
     
     let alert = UIAlertController(
       title: title,
@@ -143,7 +154,11 @@ class ViewController: UIViewController {
   
   //method is called when slider is dragged
   @IBAction func sliderMoved(_ slider: UISlider) {
-    currentValue = lroundf(slider.value)
+    currentValue = lroundf(slider.value)*10
+    
+  }
+  @IBAction func sliderMoved2(_ slider2: UISlider) {
+    currentValue2 = lroundf(slider2.value)
     
   }
 }
